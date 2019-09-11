@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import apiDetails from './configs/apiConfigs';
-import Home from './components/home';
+import './App.css';
+import Home from './components/Homepage';
 function App() {
   let [token, setToken] = useState('');
   useEffect(() => {
