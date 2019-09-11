@@ -1,0 +1,14 @@
+{
+  "getToken": {
+    "url": "https://findfalcone.herokuapp.com/token",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "getPlanets": {
+    "url": "https://findfalcone.herokuapp.com/planets"
+  },
+  "getVehicles": {
+    "url": "https://findfalcone.herokuapp.com/vehicles"
+  }
+}
