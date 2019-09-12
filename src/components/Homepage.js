@@ -19,15 +19,13 @@ export default () => {
             dispatch({
               type: 'storeVehicles',
               payload: {
-                destination1: JSON.parse(JSON.stringify(response.data)),
-                destination2: JSON.parse(JSON.stringify(response.data)),
-                destination3: JSON.parse(JSON.stringify(response.data)),
-                destination4: JSON.parse(JSON.stringify(response.data))
+                key: 'destination1',
+                value: JSON.parse(JSON.stringify(response.data))
               }
             });
             dispatch({
               type: 'constVehicles',
-              payload: JSON.parse(JSON.stringify(response.data))
+              payload: JSON.parse(JSON.stringify(res.data))
             });
           })
           .catch(err => console.log(err));
@@ -36,46 +34,18 @@ export default () => {
   }, []);
 
   function saveVehicle(value, key) {
-    let newVehicles = { ...vehicles };
-    let newStore = { ...vehicleStore };
-    let Vehicles = newVehicles[key];
-    let keys = key.split('destination');
-    let newKey = '';
-    console.log(keys);
-    if (keys[1] === '1') {
-      newKey = 'destination1';
-    } else {
-      newKey = `destination${parseInt(keys[1]) - 1}`;
-    }
-    console.log(newKey, 'newKey');
-    Vehicles.map(vehicle => {
-      if (vehicle.name === value) {
-        if (vehicle['total_no']) --vehicle['total_no'];
-      } else {
-        if (keys[1] === 1) {
-          newStore[key].forEach(val => {
-            if (val.name !== value && vehicle.name === val.name) {
-              vehicle['total_no'] = val.total_no;
-            }
-          });
-        } else {
-          newVehicles[newKey].forEach(val => {
-            if (val.name !== value && vehicle.name === val.name) {
-              vehicle['total_no'] = val.total_no;
-            }
-          });
-        }
+    Object.keys(vehicles).map(val => {
+      if (val === key) {
+        vehicles[val].map(vehicle => --vehicle['total_no']);
       }
     });
-    for (let i = keys[1]; i <= 4; i++) {
-      let str = 'destination' + i;
-      console.log(str);
-      newVehicles[str] = Vehicles;
-    }
-    // console.log(vehicles, newVehicles, 'newVehicles');
-    dispatch({ type: 'storeVehicles', payload: newVehicles });
+    console.log(vehicles);
+    dispatch({
+      type: 'storeVehicles',
+      payload: { key: key, value: vehicles[key] }
+    });
   }
-  console.log(Store);
+
   return (
     <div>
       {destinations.length && (
